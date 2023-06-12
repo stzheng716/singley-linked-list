@@ -54,33 +54,35 @@ class LinkedList {
 
   /** pop(): return & remove last item. */
 
-  pop() { // 5
+  pop() { 
     if (!this.head) {
       throw new Error("no head");
     }
+    let removed;
 
-    const oldTail = this.tail;    // 5
-    let current = this.head;      // 5
+    // different rules for list of 1
+    if (this.length === 1) {
+      removed = this.head
+      this.head = null;
+      this.tail = null;
+      this.length --
+      return removed.val
+    } 
 
-    for (let i = 1; i < this.length; i++) {   //1 >  L=1
-      // if (this.length === 1){
-      //   this.tail = null
-      //   this.head = null
-      //   return oldTail.val
-      // }
-      if (i === this.length - 1 ) {  // 1
-        current.next = null;
-        this.tail = current;
-        this.length --;
-        if (this.length === 0) {
-          this.head = null;
-          this.tail = null;
-        }
-        return oldTail.val;
+    // all other lengths apply here
+    let current = this.head;
+    let count = 0;
+    while (current !== null) {
+      if (count === this.length - 2){
+        removed = current.next
+        current.next = null
+        this.tail = current
       }
-      current = current.next.val;
+      this.length -= 1;
+      return removed.val
     }
   }
+  
 
   /** shift(): return & remove first item. */
 
