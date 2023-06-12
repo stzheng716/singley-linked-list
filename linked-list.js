@@ -117,13 +117,29 @@ class LinkedList {
 
   /** setAt(idx, val): set val at idx to val */
 
-  setAt(idx, val) {}
+  setAt(idx, val) {
+    if (idx >= this.length || idx < 0){
+      throw new Error("invalid index");
+    }
+    let current = this.head;
+    let count = 0;
+
+    while(current !== null && count !== idx){
+      if (count === idx) {
+        current.val = val
+    }
+    count++
+  }
+}
   //
 
   /** insertAt(idx, val): add node w/val before idx. */
 
   insertAt(idx, val) {
-    if (idx > this.length || idx <= 0) throw new Error("invalid index");
+    if (idx >= this.length || idx < 0) throw new Error("invalid index");
+
+    if (idx === 0) return this.unshift(val);
+    if (idx === this.length) return this.push(val);
 
     let newNode = new Node(val);
     let current = this.head;
@@ -136,6 +152,7 @@ class LinkedList {
       if (count === idx) {
         newNode.next = previous.next;
         previous.next = newNode;
+        this.length++
         return;
       }
       count++;
@@ -145,11 +162,46 @@ class LinkedList {
 
   /** removeAt(idx): return & remove item at idx, */
 
-  removeAt(idx) {}
+  removeAt(idx) {
+    if(this.head === null) return undefined;
+
+    let current = this.head
+    let count = 0;
+    let previous;
+    let nodeToBeRemoved;
+
+    while(current.next){
+      if(idx === count - 1){
+        previous = current
+      }
+
+      if(idx === count){
+        nodeToBeRemoved = current
+        previous.next = nodeToBeRemoved.next
+        nodeToBeRemoved.next = null
+      }
+      count++;
+    }
+    
+    this.length--;
+    return nodeToBeRemoved;
+  }
 
   /** average(): return an average of all values in the list */
 
-  average() {}
+  average() {
+    if(this.head === null) return 0;
+
+    let sum = 0;
+    let current = this.head;
+    while(current !== null){
+      sum += current.val
+      current = current.next
+    }
+
+    return sum/this.length
+  }
+
 }
 
 module.exports = LinkedList;
