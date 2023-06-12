@@ -23,9 +23,9 @@ class LinkedList {
   /** push(val): add new value to end of list. */
 
   push(val) {
-    let newNode = new Node(val)
+    let newNode = new Node(val);
 
-    if(!this.head) {
+    if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
     } else {
@@ -33,82 +33,123 @@ class LinkedList {
       this.tail = newNode;
     }
     this.length++;
-    return undefined
+    return undefined;
   }
 
   /** unshift(val): add new value to start of list. */
 
   unshift(val) {
-    let newNode = new Node(val)
+    let newNode = new Node(val);
 
-    if(!this.head){
+    if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
     } else {
-      newNode.next = this.head
+      newNode.next = this.head;
       this.head = newNode;
     }
     this.length++;
-    return undefined
+    return undefined;
   }
 
   /** pop(): return & remove last item. */
 
-  pop() {
-    if(!this.head){
+  pop() { // 5
+    if (!this.head) {
       throw new Error("no head");
     }
 
-    let current = this.head;
-    
+    const oldTail = this.tail;    // 5
+    let current = this.head;      // 5
 
-    // while(current.next){
-    //   current = current.next
-    // }
-
-    let index = 0
-    for(let i = 0 ; i < this.length - 1; i++) {
-      if(i === this.length - 1){
+    for (let i = 1; i < this.length; i++) {   //1 >  L=1
+      // if (this.length === 1){
+      //   this.tail = null
+      //   this.head = null
+      //   return oldTail.val
+      // }
+      if (i === this.length - 1 ) {  // 1
         current.next = null;
+        this.tail = current;
+        this.length --;
+        if (this.length === 0) {
+          this.head = null;
+          this.tail = null;
+        }
+        return oldTail.val;
       }
+      current = current.next.val;
     }
   }
 
   /** shift(): return & remove first item. */
 
   shift() {
+    if (!this.head) {
+      throw new Error("no head");
+    }
 
+    const oldHead = this.head;
+    this.head = this.head.next;
+    this.length--;
+    if (this.length === 0) {
+      this.head = null;
+      this.tail = null;
+    }
+    return oldHead.val;
   }
 
   /** getAt(idx): get val at idx. */
 
   getAt(idx) {
+    if (idx > this.length || idx <= 0) throw new Error("invalid index");
 
+    let current = this.head;
+    let count = 1;
+    while (current !== null) {
+      if (count === idx) {
+        return current.val;
+      }
+      count++;
+      current = current.next;
+    }
   }
 
   /** setAt(idx, val): set val at idx to val */
 
-  setAt(idx, val) {
-
-  }
+  setAt(idx, val) {}
+  //
 
   /** insertAt(idx, val): add node w/val before idx. */
 
   insertAt(idx, val) {
+    if (idx > this.length || idx <= 0) throw new Error("invalid index");
 
+    let newNode = new Node(val);
+    let current = this.head;
+    let previous;
+    let count = 1;
+    while (current !== null) {
+      if (count === idx - 1) {
+        previous = current;
+      }
+      if (count === idx) {
+        newNode.next = previous.next;
+        previous.next = newNode;
+        return;
+      }
+      count++;
+      current = current.next;
+    }
   }
 
   /** removeAt(idx): return & remove item at idx, */
 
-  removeAt(idx) {
-
-  }
+  removeAt(idx) {}
 
   /** average(): return an average of all values in the list */
 
-  average() {
-    
-  }
+  average() {}
 }
 
 module.exports = LinkedList;
